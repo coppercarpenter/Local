@@ -12,18 +12,17 @@ namespace GoodtoGo.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Product
+    public partial class Sale
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Product()
+        public Sale()
         {
             this.ProductSales = new HashSet<ProductSale>();
         }
     
-        public int ProductId { get; set; }
-        public string Name { get; set; }
-        public Nullable<int> Price { get; set; }
-        public Nullable<int> Quantity { get; set; }
+        public int Id { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
+        public Nullable<int> Total { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductSale> ProductSales { get; set; }

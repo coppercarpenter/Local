@@ -32,5 +32,7 @@ namespace GoodtoGo.Models
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductSale> ProductSales { get; set; }
+        public virtual DbSet<Sale> Sales { get; set; }
     }
 }
