@@ -1,39 +1,53 @@
 ﻿@model IEnumerable<GoodtoGo.Models.Sale>
 
 @{
-    ViewBag.Title = "Index";
+	ViewBag.Title = "Index";
 }
+<link href="~/Content/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<script src="~/Content/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
-<h2>Index</h2>
+<script>
+	$(document).ready(function () {
+		$('#SalesTable').dataTable();
+	});
+</script>
+<div class="row">
+	<div class="col-sm-11">
+		<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Total)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Total)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>
+		<p>
+			@Html.ActionLink("Create New", "Create")
+		</p>
+		<table id="SalesTable" class="table">
+			<thead>
+				<tr>
+					<th>
+						@Html.DisplayNameFor(model => model.Date)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Total)
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem => item.Date)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Total)
+						</td>
+						<td>
+							@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+							@Html.ActionLink("Details", "Details", new { id = item.Id })
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		</div>
+</div>

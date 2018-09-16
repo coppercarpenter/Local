@@ -123,5 +123,10 @@ namespace GoodtoGo.Controllers
             }
             base.Dispose(disposing);
         }
-    }
+		public JsonResult GetItemPrice(int ProductID)
+		{
+			var coursefee = db.Products.Where(x => x.ProductId == ProductID).Select(x => x.Price).FirstOrDefault();
+			return Json(coursefee, JsonRequestBehavior.AllowGet);
+		}
+	}
 }

@@ -10,6 +10,18 @@ using GoodtoGo.Models;
 
 namespace GoodtoGo.Controllers
 {
+	public class SalesItem {
+		public int ProductID { get; set; }
+		public int Quantity{ get; set; }
+	public int Price { get; set; }
+	};
+
+	public class sale
+	{
+		public DateTime date { get; set; }
+		public int total { get; set; }
+		public List<SalesItem> salesItem { get; set; }
+	};
     public class SalesController : Controller
     {
         private Entities db = new Entities();
@@ -19,7 +31,39 @@ namespace GoodtoGo.Controllers
         {
             return View(db.Sales.ToList());
         }
-
+		public ActionResult ADD(sale std)
+		{
+			int flag = 0;
+			var dbContext = db.Database.BeginTransaction();
+			try
+			{
+				Sale newSale = new Sale();
+				newSale.Date = std.date;
+				newSale.Total = std.total;
+				db.Sales.Add(newSale);
+				db.SaveChanges();
+				var lastestId = db.Sales.Max(x => x.Id);
+				foreach (var item in std.salesItem)
+				{
+					ProductSale anItem = new ProductSale();
+					anItem.Price = item.Price;
+					anItem.ProductId = item.ProductID;
+					anItem.Quantity = item.Quantity;
+					anItem.saleId = lastestId;
+					db.ProductSales.Add(anItem);
+					db.SaveChanges();
+				}
+				dbContext.Commit();
+				flag = 1;
+			}
+			catch
+			{
+				dbContext.Rollback();
+				ViewBag.Error = "Cannot Insert Data";
+			}
+			
+			return Content(flag.ToString(),"plain/Text");
+		}
         // GET: Sales/Details/5
         public ActionResult Details(int? id)
         {
@@ -38,7 +82,9 @@ namespace GoodtoGo.Controllers
         // GET: Sales/Create
         public ActionResult Create()
         {
-            return View();
+			ViewBag.ProductList = new SelectList(db.Products.Where(x => x.Quantity > 0), "ProductId", "Name");
+			ViewBag.Date = DateTime.Now;
+			return View();
         }
 
         // POST: Sales/Create
